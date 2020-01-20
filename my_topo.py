@@ -37,6 +37,7 @@ def my_test():
 	info("*** Test ping all\n")
 	net.pingAll()
 	CLI(net)
+	net.stop()
 
 if __name__ == '__main__':
     setLogLevel('info')
