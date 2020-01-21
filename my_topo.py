@@ -12,20 +12,22 @@ class SwitchTopo(Topo):
 		host_list = {}
 		switch_list = {}
 		
+		TopSwitch = self.addSwitch('s0', dailMode = 'secure')
+
 		for s in range(m):
-			switch_list[s] = self.addSwitch('s%s' % (s), failMode = 'secure')
+			switch_list[s] = self.addSwitch('s%s' % (s+1), failMode = 'secure')
 			#switch_list[s] = self.addSwitch('s%s' % (s), failMode = 'standalone')
 			
 			for h in range(n):
 				host_list[h] = self.addHost('h%s' % (h+s*n))
 				self.addLink(host_list[h], switch_list[s])
 		
-		for s in range(m - 1):
-			self.addLink(switch_list[s], switch_list[((s+1)%m)])
+		for s in range(m):
+			self.addLink(switch_list[s], TopSwitch)
 
 
 def my_test():
-	topo = SwitchTopo(n=3, m=3)
+	topo = SwitchTopo(n=2, m=5)
 	net = Mininet(topo=topo, controller=None)
 	
 	info( '*** Add Controller\n' )
